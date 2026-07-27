@@ -1,10 +1,11 @@
 package br.com.zenon.fraud;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
+        /*
         Transaction t1 = new Transaction(1,
                 eType.PAYMENT,
                 new BigDecimal("9839.64"),
@@ -23,5 +24,14 @@ public class Main {
 
         System.out.println(t1);
         System.out.println(t2);
+         */
+
+        List<Transaction> lista;
+        TransactionIngestor ti = new TransactionIngestor();
+        lista = ti.read("src/data/PS_20174392719_1491204439457_log.csv");
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println(lista.get(i));
+        }
     }
 }

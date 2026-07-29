@@ -26,11 +26,15 @@ public class Main {
         System.out.println(t2);
          */
 
+        int vmostra;
         List<Transaction> lista;
         TransactionIngestor ti = new TransactionIngestor();
-        lista = ti.read("src/data/PS_20174392719_1491204439457_log.csv");
+        //lista = ti.read("src/data/PS_20174392719_1491204439457_log.csv");
+        lista = ti.read("src/data/paysim_with_bad_data.csv");
 
-        for (int i = 0; i < 10; i++) {
+        vmostra = Math.min(lista.size(), 10);
+
+        for (int i = 0; i < vmostra; i++) {
             System.out.println(lista.get(i));
         }
     }

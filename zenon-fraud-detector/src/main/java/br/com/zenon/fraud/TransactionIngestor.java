@@ -10,6 +10,10 @@ import java.util.List;
 public class TransactionIngestor {
 
     public List<Transaction> read(String filename) {
+        return read(filename, 1000);
+    }
+
+    public List<Transaction> read(String filename,  int counter) {
         //retorno
         List<Transaction> lista = new ArrayList<>();
 
@@ -53,7 +57,7 @@ public class TransactionIngestor {
                     }
                 }
             //se já leu 1000 linhas ou caso não tenha mais conteudo para ler
-            } while (count < 1001 && lin != null);
+            } while (count < counter && lin != null);
         } catch (IOException e) {
             throw new RuntimeException("Erro ao tentar ler o arquivo:" + filename);
         }

@@ -10,6 +10,10 @@ import java.util.List;
 public class TransactionIngestor {
 
     public List<Transaction> read(String filename) {
+        return read(filename, 1000);
+    }
+
+    public List<Transaction> read(String filename,  int counter) {
         //retorno
         List<Transaction> lista = new ArrayList<>();
 
@@ -23,6 +27,7 @@ public class TransactionIngestor {
             String lin;
             String[] col;
             int count = -1;
+            eType testType = null;
 
             do {
                 //lê a próxima linha do arquivo
@@ -36,24 +41,38 @@ public class TransactionIngestor {
                         //aloca conteudo da linha em vetor de string
                         col = lin.split(",");
 
-                        //constrói objetos com atributos da linha e adiciona à lista
-                        lista.add(new Transaction(
-                                Integer.parseInt(col[0]),
-                                eType.valueOf(col[1]),
-                                new BigDecimal(col[2]),
-                                new TransactionCustomer(col[3], new BigDecimal(col[4]), new BigDecimal(col[5])),
-                                new TransactionCustomer(col[6], new BigDecimal(col[7]), new BigDecimal(col[8])),
-                                col[9].equals("1"),
-                                col[10].equals("1")));
+                        try{
+                            testType = eType.valueOf(col[1]);
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Erro - " + lin + ": tipo de operação não catalogada");
+                        }finally {
+                            count += 1;
+                        }
 
-                        count += 1;
+                        try {
+                            //constrói objetos com atributos da linha e adiciona à lista
+                            lista.add(new Transaction(
+                                    Integer.parseInt(col[0]),
+                                    testType,
+                                    new BigDecimal(col[2]),
+                                    new TransactionCustomer(col[3], new BigDecimal(col[4]), new BigDecimal(col[5])),
+                                    new TransactionCustomer(col[6], new BigDecimal(col[7]), new BigDecimal(col[8])),
+                                    col[9].equals("1"),
+                                    col[10].equals("1")));
+                        } catch (NumberFormatException nfe){
+                            System.out.println("Erro - " + lin + ": a linha no documento está com atributos faltando");
+                        }catch(Exception e){
+                            System.out.println("Erro - " + lin + ": " + e.getMessage());
+                        } finally {
+                            count += 1;
+                        }
                     } else {
                         //cabeçalho não deve contar
                         count = 0;
                     }
                 }
             //se já leu 1000 linhas ou caso não tenha mais conteudo para ler
-            } while (count < 1001 && lin != null);
+            } while (count < counter && lin != null);
         } catch (IOException e) {
             throw new RuntimeException("Erro ao tentar ler o arquivo:" + filename);
         }

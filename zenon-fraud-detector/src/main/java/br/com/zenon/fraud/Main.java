@@ -27,11 +27,30 @@ public class Main {
          */
 
         List<Transaction> lista;
-        TransactionIngestor ti = new TransactionIngestor();
-        lista = ti.read("src/data/PS_20174392719_1491204439457_log.csv");
+        List<Transaction> resultado;
 
-        for (int i = 0; i < 10; i++) {
-            System.out.println(lista.get(i));
-        }
+        TransactionIngestor ti = new TransactionIngestor();
+        lista = ti.read("src/data/PS_20174392719_1491204439457_log.csv", 50000);
+
+        FraudAnalyzer detective = new FraudAnalyzer(lista);
+
+        System.out.println("1. Total de Fraudes:" + detective.ManyFraud());
+
+        resultado = detective.TopFraud(3);
+
+        System.out.println("2. Top 3 Fraudes de Maior Valor:" + detective.ManyFraud());
+        resultado.forEach(r -> System.out.println(r.amount().toPlainString()));
+
+        resultado = detective.TopFraud(5);
+
+        System.out.println("3. Clientes Suspeitos:" + detective.ManyFraud());
+        resultado.forEach(r -> {
+            System.out.println(r.oldTC().name());
+        });
+
+        System.out.println("4. Prejuízo Total:" + detective.TotalFraud());
+
+        System.out.println("5. Fraudes por Tipo:");
+        detective.FraudPerTransaction().forEach((tipo, quant) -> System.out.println("-" + tipo + ": " + quant));
     }
 }

@@ -8,7 +8,18 @@ public record Transaction(int step,
                           TransactionCustomer oldTC,
                           TransactionCustomer newTC,
                           boolean isFraud,
-                          boolean isFlaggedFraud) {
+                          boolean isFlaggedFraud){
+
+    public Transaction{
+
+        if (step <= 0){
+            throw new IllegalArgumentException("step deve ser maior que zero");
+        }
+
+        if (Double.parseDouble(amount.toString()) < 0){
+            throw new IllegalArgumentException("a quantia não pode ser menor que zero");
+        }
+    }
 
     @Override
     public String toString() {
@@ -27,4 +38,3 @@ public record Transaction(int step,
                 '}';
     }
 }
-

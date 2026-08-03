@@ -45,10 +45,7 @@ public class TransactionIngestor {
                             testType = eType.valueOf(col[1]);
                         } catch (IllegalArgumentException e) {
                             System.out.println("Erro - " + lin + ": tipo de operação não catalogada");
-                        }finally {
-                            count += 1;
                         }
-
                         try {
                             //constrói objetos com atributos da linha e adiciona à lista
                             lista.add(new Transaction(

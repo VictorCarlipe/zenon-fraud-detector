@@ -38,12 +38,12 @@ public class Main {
 
         resultado = detective.TopFraud(3);
 
-        System.out.println("2. Top 3 Fraudes de Maior Valor:" + detective.ManyFraud());
+        System.out.println("2. Top 3 Fraudes de Maior Valor:");
         resultado.forEach(r -> System.out.println(r.amount().toPlainString()));
 
         resultado = detective.TopFraud(5);
 
-        System.out.println("3. Clientes Suspeitos:" + detective.ManyFraud());
+        System.out.println("3. Clientes Suspeitos:");
         resultado.forEach(r -> {
             System.out.println(r.oldTC().name());
         });
